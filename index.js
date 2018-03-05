@@ -26,6 +26,10 @@ const http = require('http'),
 
 const fetch = (url, options) => {
     return new Promise((resolve, reject) => {
+        const isJson = (str) => {
+            try { return JSON.parse(str) } 
+            catch (e) { return false }
+        }
         const req = nodeurl.parse(url);
         const client = (req.protocol == 'https:') ? https : http;
         let body = '';
@@ -47,14 +51,10 @@ const fetch = (url, options) => {
         });
         thisReq.setHeader('user-agent', 'fetch-lite[v1.0] (https://github.com/vasanthv/fetch-lite)');
         req['headers']['Content-Type'] || thisReq.setHeader('Content-Type', options.body ? 'application/x-www-form-urlencoded' : 'application/octet-stream');
-        options.body && thisReq.write(isJson(options.body) ? querystring.stringify(options.body) : options.body);
+        options.body && thisReq.write( (typeof options.body === 'string' || Buffer.isBuffer(options.body)) ? options.body : querystring.stringify(options.body));
         thisReq.on('error', (err) => reject(err)).end();
     });
 };
 
-const isJson = (str) => {
-    try { return JSON.parse(str) } 
-    catch (e) { return false }
-}
 
 module.exports = (url, options) => url ? fetch(url, options || {}) : Promise.reject('URL is mandatory');
