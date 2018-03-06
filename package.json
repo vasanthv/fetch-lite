@@ -1,15 +1,12 @@
 {
   "name": "fetch-lite",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A lightweight module to send HTTP(s) requests from Node.js.",
   "main": "index.js",
   "scripts": {
     "test": "node test.js && echo ✔"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vasanthv/fetch-lite.git"
-  },
+  "repository": "git+https://github.com/vasanthv/fetch-lite.git",
   "keywords": [
     "http-client",
     "fetch",
