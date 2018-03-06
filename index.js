@@ -34,7 +34,8 @@ const fetch = (url, options) => {
         const client = (req.protocol == 'https:') ? https : http;
         let body = '';
         req['method'] = options.method || 'GET';
-        req['headers'] = options.headers || {};
+        req['headers'] = {};
+        options.headers && Object.keys(options.headers).forEach(key => req['headers'][key.toLowerCase()] = options.headers[key]);
         const thisReq = client.request(req, (res) => {
             if(res.statusCode >= 300 && res.statusCode < 400 && res.headers.location && options.redirect != 'manual'){
                 return resolve(fetch(res.headers.location, options));
@@ -50,7 +51,8 @@ const fetch = (url, options) => {
             res.on('error', (err) => reject(err));
         });
         thisReq.setHeader('user-agent', 'fetch-lite[v1.0] (https://github.com/vasanthv/fetch-lite)');
-        req['headers']['Content-Type'] || thisReq.setHeader('Content-Type', options.body ? 'application/x-www-form-urlencoded' : 'application/octet-stream');
+        req['headers']['content-type'] || thisReq.setHeader('content-type', options.body ? 'application/x-www-form-urlencoded' : 'application/octet-stream');
+        req['headers']['accept'] || thisReq.setHeader('accept', '*/*');
         options.body && thisReq.write( (typeof options.body === 'string' || Buffer.isBuffer(options.body)) ? options.body : querystring.stringify(options.body));
         thisReq.on('error', (err) => reject(err)).end();
     });
