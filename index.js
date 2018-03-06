@@ -19,23 +19,18 @@
  * 
  */
 
-const http = require('http'),
-    https = require('https'),
-    nodeurl = require('url'),
-    querystring = require('querystring');
-
 const fetch = (url, options) => {
     return new Promise((resolve, reject) => {
         const isJson = (str) => {
             try { return JSON.parse(str) } 
             catch (e) { return false }
         }
-        const req = nodeurl.parse(url);
-        const client = (req.protocol == 'https:') ? https : http;
+        const req = require('url').parse(url);
+        const client = (req.protocol == 'https:') ? require('https') : require('http');
         req['method'] = options.method || 'GET';
         req['headers'] = {};
         options.headers && Object.keys(options.headers).forEach(key => req['headers'][key.toLowerCase()] = options.headers[key]);
-        const body = options.body ? (options.body.length ? options.body : (req['headers']['content-type'] == 'application/json' ? JSON.stringify(options.body) : querystring.stringify(options.body))) : false;
+        const body = options.body ? (options.body.length ? options.body : (req['headers']['content-type'] == 'application/json' ? JSON.stringify(options.body) : require('querystring').stringify(options.body))) : false;
         const thisReq = client.request(req, (res) => {
             let resBody = '';
             if(res.statusCode >= 300 && res.statusCode < 400 && res.headers.location && options.redirect != 'manual'){
