@@ -32,28 +32,30 @@ const fetch = (url, options) => {
         }
         const req = nodeurl.parse(url);
         const client = (req.protocol == 'https:') ? https : http;
-        let body = '';
         req['method'] = options.method || 'GET';
         req['headers'] = {};
         options.headers && Object.keys(options.headers).forEach(key => req['headers'][key.toLowerCase()] = options.headers[key]);
+        const body = options.body ? (options.body.length ? options.body : (req['headers']['content-type'] == 'application/json' ? JSON.stringify(options.body) : querystring.stringify(options.body))) : false;
         const thisReq = client.request(req, (res) => {
+            let resBody = '';
             if(res.statusCode >= 300 && res.statusCode < 400 && res.headers.location && options.redirect != 'manual'){
                 return resolve(fetch(res.headers.location, options));
             }
-            res.on('data', (data) => body += data);
+            res.on('data', (data) => resBody += data);
             res.on('end', (end) => resolve({
                 headers: res.headers,
                 status: res.statusCode,
                 statusText: res.statusMessage,
                 url: res.url || url,
-                body: isJson(body) || body
+                body: isJson(resBody) || resBody
             }));
             res.on('error', (err) => reject(err));
         });
         thisReq.setHeader('user-agent', 'fetch-lite[v1.0] (https://github.com/vasanthv/fetch-lite)');
-        req['headers']['content-type'] || thisReq.setHeader('content-type', options.body ? 'application/x-www-form-urlencoded' : 'application/octet-stream');
         req['headers']['accept'] || thisReq.setHeader('accept', '*/*');
-        options.body && thisReq.write( (typeof options.body === 'string' || Buffer.isBuffer(options.body)) ? options.body : querystring.stringify(options.body));
+        req['headers']['content-type'] || thisReq.setHeader('content-type', (body && !Buffer.isBuffer(body)) ? 'application/x-www-form-urlencoded' : 'application/octet-stream');
+        body && thisReq.setHeader('content-length', body.length);
+        body && thisReq.write(body);
         thisReq.on('error', (err) => reject(err)).end();
     });
 };
