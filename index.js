@@ -33,7 +33,7 @@ const fetch = (url, options) => {
         const body = options.body ? (options.body.length ? options.body : (req['headers']['content-type'] == 'application/json' ? JSON.stringify(options.body) : require('querystring').stringify(options.body))) : false;
         const thisReq = client.request(req, (res) => {
             let resBody = '';
-            if(res.statusCode >= 300 && res.statusCode < 400 && res.headers.location && options.redirect != 'manual'){
+            if(res.statusCode >= 300 && res.statusCode < 400 && res.headers.location && options.followredirect != false){
                 return resolve(fetch(res.headers.location, options));
             }
             res.on('data', (data) => resBody += data);

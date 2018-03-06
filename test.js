@@ -108,6 +108,12 @@ fetch('http://httpbin.org/redirect-to?url=http%3A%2F%2Fhttpbin.org%2Fget')
 .then(response => assertEq(response.status, 200))
 .catch(err => breakWithErr(err));
 
+fetch('http://httpbin.org/redirect-to?url=http%3A%2F%2Fhttpbin.org%2Fget', {
+    followredirect: false
+})
+.then(response => assertEq(response.status, 302))
+.catch(err => breakWithErr(err));
+
 /**
  * HTTPS
  */
