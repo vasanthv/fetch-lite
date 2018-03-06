@@ -102,3 +102,17 @@ fetch('http://httpbin.org/headers', {
 })
 .then(response => assertEq(response.status, 200))
 .catch(err => breakWithErr(err));
+
+/**
+ * REDIRECT
+ */
+fetch('http://httpbin.org/redirect-to?url=http%3A%2F%2Fhttpbin.org%2Fget')
+.then(response => assertEq(response.status, 200))
+.catch(err => breakWithErr(err));
+
+/**
+ * HTTPS
+ */
+fetch('https://httpbin.org/get')
+.then(response => assertEq(response.status, 200))
+.catch(err => breakWithErr(err));
