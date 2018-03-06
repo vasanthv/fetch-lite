@@ -92,5 +92,13 @@ The module export one function which accepts only 2 params.
 	- headers. [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object).
 	- followredirect. Boolean. *Default True*.
 
+**Output Params:**
+- headers. [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)
+- statusText. String
+- status. Number
+- url. String
+- body. String or [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)
+
+
 ## Licence
 MIT
