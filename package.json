@@ -1,6 +1,6 @@
 {
   "name": "fetch-lite",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A lightweight module to send HTTP(s) requests from Node.js.",
   "main": "index.js",
   "scripts": {
