@@ -83,6 +83,15 @@ fetch('http://httpbin.org/post', {
 .catch(err => console.error(err));
 ```
 
+### Basic auth
+```js
+fetch('https://httpbin.org/basic-auth/user/passwd', {
+    auth: "user:passwd"
+})
+.then(response => assertEq(response.status, 200))
+.catch(err => breakWithErr(err));
+```
+
 ## API
 The module export one function which accepts only 2 params.
 1. URL. String *(Required)*
@@ -90,6 +99,7 @@ The module export one function which accepts only 2 params.
 	- method. String. (POST | GET | PUT etc). *Default GET*.
 	- body. String or [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object) or [Buffer](https://nodejs.org/api/buffer.html).
 	- headers. [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object).
+	- auth. String. Used to set the Basic auth header. Format *"username/password"*.
 	- followredirect. Boolean. *Default True*.
 
 **Output Params:**

@@ -7,6 +7,7 @@
  *  - method: eg. GET, POST. Default GET
  *  - headers [JSON Object]
  *  - body [JSON Object]
+ *  - auth. String. "user:password"
  *  - followredirect [Boolean]. Default true.
  * 
  * Returns a Promise
@@ -30,6 +31,7 @@ const fetch = (url, options) => {
         req['method'] = options.method || 'GET';
         req['headers'] = {};
         options.headers && Object.keys(options.headers).forEach(key => req['headers'][key.toLowerCase()] = options.headers[key]);
+        req['auth'] = options.auth;
         const body = options.body ? (options.body.length ? options.body : (req['headers']['content-type'] == 'application/json' ? JSON.stringify(options.body) : require('querystring').stringify(options.body))) : false;
         const thisReq = client.request(req, (res) => {
             let resBody = '';

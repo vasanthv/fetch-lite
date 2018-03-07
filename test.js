@@ -128,3 +128,13 @@ fetch('https://httpbin.org/get')
     const response = await fetch('https://httpbin.org/get');
     assertEq(response.status, 200);
 })();
+
+/**
+ * Basic Auth
+ */
+fetch('https://httpbin.org/basic-auth/user/passwd', {
+    auth: "user:passwd"
+})
+.then(response => assertEq(response.status, 200))
+.catch(err => breakWithErr(err));
+
