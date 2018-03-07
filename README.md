@@ -28,7 +28,7 @@ yarn install --save fetch-lite
 ## Usage
 The idea of fetch-lite is to create a minimal version of  `fetch()` API  described [here](https://fetch.spec.whatwg.org/#fetch-api).  A basic GET request is shown below.
 
-```
+```js
 const fetch = require('fetch-lite');
 
 fetch('https://httpbin.org/get')
@@ -37,7 +37,7 @@ fetch('https://httpbin.org/get')
 ```
 
 Using async/await.
-```
+```js
 (async () => {
     const response = await fetch('https://httpbin.org/get');
     console.log(response);
@@ -47,7 +47,7 @@ Using async/await.
 
 ### Post
 Posting a post body.
-```
+```js
 fetch('http://httpbin.org/post', {
     method: 'POST',
     body: {
@@ -59,7 +59,7 @@ fetch('http://httpbin.org/post', {
 ```
 
 Posting a JSON body.
-```
+```js
 fetch('http://httpbin.org/post', {
     method: 'POST',
     body: {
@@ -74,7 +74,7 @@ fetch('http://httpbin.org/post', {
 ```
 
 Posting a Buffer.
-```
+```js
 fetch('http://httpbin.org/post', {
     method: 'POST',
     body: Buffer.from("Hello World")
